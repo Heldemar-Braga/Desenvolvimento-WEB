@@ -1,0 +1,21 @@
+{
+  "name": "desenvolvimento-web",
+  "version": "1.0.0",
+  "description": "Só por Deus",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heldemar-Braga/Desenvolvimento-WEB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Heldemar-Braga/Desenvolvimento-WEB/issues"
+  },
+  "homepage": "https://github.com/Heldemar-Braga/Desenvolvimento-WEB#readme"
+}

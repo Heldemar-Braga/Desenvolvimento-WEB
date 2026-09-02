@@ -59,7 +59,7 @@ async function iniciar() {
     const altura = Number(alturaInput);
 
     if (peso <= 0 || altura <= 0) {
-      console.log("O peso e a altura devem ser maiores que zero.");
+      console.log("O peso e  altura devem ser maiores que zero.");
       i--;
       continue;
     }

@@ -5,45 +5,80 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question("Digite seu peso em kg: ", (pesoInput) => {
-  rl.question("Digite sua altura em metros: ", (alturaInput) => {
+function calcularIMC(peso, altura) {
+  return peso / (altura * altura);
+}
+
+function classificarIMC(imc) {
+  if (imc < 18.5) {
+    return "Abaixo do peso.";
+  } else if (imc < 25) {
+    return "Peso normal.";
+  } else if (imc < 30) {
+    return "Sobrepeso.";
+  } else if (imc < 35) {
+    return "Obesidade grau I.";
+  } else if (imc < 40) {
+    return "Obesidade grau II.";
+  } else {
+    return "Obesidade grau III.";
+  }
+}
+
+function perguntar(texto) {
+  return new Promise((resolve) => {
+    rl.question(texto, (resposta) => {
+      resolve(resposta.trim());
+    });
+  });
+}
+
+async function iniciar() {
+  const quantidadeInput = await perguntar("Quantos pacientes deseja cadastrar? ");
+  const quantidade = Number(quantidadeInput);
+
+  if (isNaN(quantidade) || quantidade <= 0) {
+    console.log("Digite uma quantidade válida.");
+    rl.close();
+    return;
+  }
+
+  for (let i = 1; i <= quantidade; i++) {
+    console.log(`\n===== PACIENTE ${i} =====`);
+
+    const pesoInput = await perguntar("Digite o peso em kg: ");
+    const alturaInput = await perguntar("Digite a altura em metros: ");
+
+    if (isNaN(pesoInput) || isNaN(alturaInput)) {
+      console.log("Digite apenas números válidos.");
+      i--;
+      continue;
+    }
+
     const peso = Number(pesoInput);
     const altura = Number(alturaInput);
 
-    if (!Number.isFinite(peso) || !Number.isFinite(altura)) {
-      console.log("Digite apenas números válidos.");
-      rl.close();
-      return;
-    }
-
     if (peso <= 0 || altura <= 0) {
-      console.log("O peso e a altura devem ser maiores que zero.");
-      rl.close();
-      return;
+      console.log("O peso e  altura devem ser maiores que zero.");
+      i--;
+      continue;
     }
 
-    const imc = peso / (altura * altura);
+    const imc = calcularIMC(peso, altura);
+    const classificacao = classificarIMC(imc);
 
     console.log("\n----------------------------");
+    console.log(`Paciente: ${i}`);
     console.log(`Peso: ${peso.toFixed(2)} kg`);
     console.log(`Altura: ${altura.toFixed(2)} m`);
-    console.log(`Seu IMC é: ${imc.toFixed(2)}`);
+    console.log(`IMC: ${imc.toFixed(2)}`);
+    console.log(`Classificação: ${classificacao}`);
     console.log("----------------------------");
+  }
 
-    if (imc < 18.5) {
-      console.log("Classificação: Abaixo do peso.");
-    } else if (imc < 25) {
-      console.log("Classificação: Peso normal.");
-    } else if (imc < 30) {
-      console.log("Classificação: Sobrepeso.");
-    } else if (imc < 35) {
-      console.log("Classificação: Obesidade grau I.");
-    } else if (imc < 40) {
-      console.log("Classificação: Obesidade grau II.");
-    } else {
-      console.log("Classificação: Obesidade grau III.");
-    }
+  console.log("\nTodos os pacientes foram processados!");
 
-    rl.close();
-  });
-});
+  rl.close();
+}
+
+iniciar();
